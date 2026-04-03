@@ -1,5 +1,7 @@
 body {
-    background-image: url("image.jpg");
+    background-color: lightsalmon;
+    font-family: Arial;
+    margin: 0;
     text-align: center;
 }
 
