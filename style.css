@@ -7,6 +7,7 @@ background-image: url("image.jpg");
 
 .title {
 color: orange;
+    text-align: center;
 }
 
 header {
