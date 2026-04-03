@@ -2,7 +2,7 @@ body {
     font-family: Arial;
 margin: 0;
     text-align: center;
-background-image url=("image.jpg");
+background-image: url=("image.jpg");
 }
 
 
