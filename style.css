@@ -2,7 +2,7 @@ body {
 background-image: url("image.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: cover;
+    background-position: center;
     background-attachment: scroll;
 }
 
