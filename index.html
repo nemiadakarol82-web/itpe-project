@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone Store</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Phone Store</h1>
+    <div class="cart" onclick="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+    </div>
+</header>
+
+<!-- Cart Panel -->
+<div id="cart-panel" class="cart-panel">
+    <h3>Your Cart</h3>
+    <div id="cart-items"></div>
+    <p id="cart-total">Total: ₱0</p>
+</div>
+
+<main>
+<div class="products-container">
+
+    <!-- Product 1 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200x200?text=Phone+1" alt="Phone 1">
+        <h2>Galaxy Samsung s24 ultra</h2>
+        <p class="price">₱84,990</p>
+        <p class="description">The latest Samsung Galaxy S24 Ultra  with stunning display and fast performance.</p>
+        <label for="size1">Storage:</label>
+        <select id="size1" class="size-selector">
+            <option value="64GB">64GB</option>
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+        </select>
+        <label for="qty1">Quantity:</label>
+        <input type="number" id="qty1" value="1" min="1">
+        <button onclick="addToCart('Samsung Galaxy S24 Utra ', $1,400, document.getElementById('qty1').value)">Add to Cart</button>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'desc1')">Description</button>
+            <button class="tab-btn" onclick="openTab(event, 'rev1')">Reviews</button>
+            <div id="desc1" class="tab-content active">
+                Samsung Galaxy S24 Ultra  is designed for speed and style. Enjoy high-quality camera and battery life.
+            </div>
+            <div id="rev1" class="tab-content">
+                <p><strong>Karol Nemiada:</strong> Great phone! Love the display.</p>
+                <p><strong>Daniel Edria:</strong> Fast and sleek, totally worth it.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200x200?text=Phone+2" alt="Phone 2">
+        <h2>iPhone 16 Pro Max</h2>
+        <p class="price">₱63,999</p>
+        <p class="description">iPhone 16 Pro Max with improved camera and sleek design.</p>
+        <label for="size2">Storage:</label>
+        <select id="size2" class="size-selector">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+            <option value="512GB">512GB</option>
+        </select>
+        <label for="qty2">Quantity:</label>
+        <input type="number" id="qty2" value="1" min="1">
+        <button onclick="addToCart('iPhone 16 Pro Max', $1060, document.getElementById('qty2').value)">Add to Cart</button>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'desc2')">Description</button>
+            <button class="tab-btn" onclick="openTab(event, 'rev2')">Reviews</button>
+            <div id="desc2" class="tab-content active">
+                iPhone 16 Pro Max combines elegance with powerful features and excellent camera quality.
+            </div>
+            <div id="rev2" class="tab-content">
+                <p><strong>Jeric Dela Cruz:</strong> Amazing camera and smooth OS.</p>
+                <p><strong>Mark Smith Mathew III:</strong> Worth the price, top-notch build.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+        <img src="https://via.placeholder.com/200x200?text=Phone+3" alt="Phone 3">
+        <h2>Oppo Find X8 Ultra</h2>
+        <p class="price">₱59,990</p>
+        <p class="description">Oppo Find X8 Ultra with AI-powered camera and clean Android experience.</p>
+        <label for="size3">Storage:</label>
+        <select id="size3" class="size-selector">
+            <option value="128GB">128GB</option>
+            <option value="256GB">256GB</option>
+        </select>
+        <label for="qty3">Quantity:</label>
+        <input type="number" id="qty3" value="1" min="1">
+        <button onclick="addToCart(Oppo Find X8 Ultra, $1000, document.getElementById('qty3').value)">Add to Cart</button>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'desc3')">Description</button>
+            <button class="tab-btn" onclick="openTab(event, 'rev3')">Reviews</button>
+            <div id="desc3" class="tab-content active">
+                Oppo Find X8 Ultra is perfect for Android lovers, with AI photography and smooth performance.
+            </div>
+            <div id="rev3" class="tab-content">
+                <p><strong>Karol Nemiada:</strong> Best Android experience I've had.</p>
+                <p><strong>Daniel Edria:</strong> Camera is phenomenal!</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</main>
+
+<script>
+let cartCount = 0;
+let cart = [];
+
+/* ✅ FIXED FUNCTION ONLY */
+function addToCart(name, price, quantity) {
+    quantity = parseInt(quantity);
+
+    // Convert weird price inputs safely
+    try {
+        if (typeof price !== "number") {
+            price = String(price).replace(/[^0-9.]/g, "");
+            price = parseFloat(price);
+        }
+    } catch (e) {
+        console.error("Price error:", e);
+        return;
+    }
+
+    if (isNaN(price)) return;
+
+    cartCount += quantity;
+    document.getElementById('cart-count').innerText = cartCount;
+
+    let existing = cart.find(item => item.name === name);
+
+    if(existing) {
+        existing.quantity += quantity;
+        existing.subtotal = existing.price * existing.quantity;
+    } else {
+        cart.push({name, price, quantity, subtotal: price * quantity});
+    }
+
+    updateCartUI();
+}
+
+function updateCartUI() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <span>${item.name} x${item.quantity}</span>
+                <span>₱${item.subtotal}</span>
+                <button onclick="removeCartItem(${index})">❌</button>
+            </div>
+        `;
+    });
+    document.getElementById('cart-total').innerText = `Total: ₱${total}`;
+}
+
+function removeCartItem(index) {
+    cartCount -= cart[index].quantity;
+    document.getElementById('cart-count').innerText = cartCount;
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('active');
+}
+
+// Tabs
+function openTab(evt, tabId) {
+    let tabContents = evt.currentTarget.parentNode.querySelectorAll('.tab-content');
+    let tabBtns = evt.currentTarget.parentNode.querySelectorAll('.tab-btn');
+    tabContents.forEach(tc => tc.classList.remove('active'));
+    tabBtns.forEach(tb => tb.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
