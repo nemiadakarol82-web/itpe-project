@@ -1,9 +1,6 @@
 body {
-background-image: url("image.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: scroll;
+    background: linear-gradient(to right, yellow, white,orange);
+    font-family: Arial, sans-serif;
 }
 
 .title {
