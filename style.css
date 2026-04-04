@@ -2,7 +2,8 @@ body {
 background-image: url("image.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: cover;
+    background-attachment: scroll;
 }
 
 .title {
